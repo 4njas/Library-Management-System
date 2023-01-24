@@ -60,7 +60,7 @@
 				echo "</form>";
 			}
 			
-			$header = 'From: <noreply@libraryms.com>' . "\r\n";
+			$header = 'From: <muhammadsigit.hd20@gmail.com>' . "\r\n";
 			
 			if(isset($_POST['l_confirm']))
 			{

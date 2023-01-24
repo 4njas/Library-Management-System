@@ -53,21 +53,31 @@
 			else
 			{
 				$query = $con->prepare("(SELECT username FROM member WHERE username = ?) UNION (SELECT username FROM pending_registrations WHERE username = ?);");
-				$query->bind_param("ss", $_POST['m_user'], $_POST['m_user']);
+				$query->bind_param("ss", $username, $username);
+
+				$username = $_POST['m_user'];
 				$query->execute();
 				if(mysqli_num_rows($query->get_result()) != 0)
 					echo error_with_field("The username you entered is already taken", "m_user");
 				else
 				{
 					$query = $con->prepare("(SELECT email FROM member WHERE email = ?) UNION (SELECT email FROM pending_registrations WHERE email = ?);");
-					$query->bind_param("ss", $_POST['m_email'], $_POST['m_email']);
+					$query->bind_param("ss", $m_email, $m_email);
+
+				    $m_email = $_POST['m_email'];
 					$query->execute();
 					if(mysqli_num_rows($query->get_result()) != 0)
 						echo error_with_field("An account is already registered with that email", "m_email");
 					else
 					{
 						$query = $con->prepare("INSERT INTO pending_registrations(username, password, name, email, balance) VALUES(?, ?, ?, ?, ?);");
-						$query->bind_param("ssssd", $_POST['m_user'], sha1($_POST['m_pass']), $_POST['m_name'], $_POST['m_email'], $_POST['m_balance']);
+						$query->bind_param("ssssd", $user, $pass, $name, $email, $balance);
+
+						$user = $_POST['m_user'];
+						$pass = sha1($_POST['m_pass']);
+						$name = $_POST['m_name'];
+						$email = $_POST['m_email'];
+						$balance = $_POST['m_balance'];
 						if($query->execute())
 							echo success("Details submitted, soon you'll will be notified after verifications!");
 						else
